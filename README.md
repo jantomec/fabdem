@@ -37,7 +37,11 @@ Run this command to upload the code to PyPI:
 flit publish
 ```
 
-Resources:
+### TODO:
+[ ] Create a conda package.
+[ ] Download only part of a zip.
+
+### Resources:
 - [Python Packaging](https://packaging.python.org/en/latest/overview/)
 - [TOML Format](https://github.com/toml-lang/toml)
 - [flit](https://flit.pypa.io/en/latest/)
