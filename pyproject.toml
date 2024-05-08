@@ -8,5 +8,8 @@ authors = [{name = "Jan Tomec", email = "jan.tomec@c3m.si"}]
 readme = "README.md"
 dynamic = ["version", "description"]
 dependencies = [
-    "requests >=2.6",
+    "requests >= 2.25",
+    "geopandas >= 0.14",
+    "tqdm >= 4.66",
+    "rasterio >= 1.3",
 ]
