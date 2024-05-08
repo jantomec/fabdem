@@ -1,0 +1,12 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "fabdem"
+authors = [{name = "Jan Tomec", email = "jan.tomec@c3m.si"}]
+readme = "README.md"
+dynamic = ["version", "description"]
+dependencies = [
+    "requests >=2.6",
+]
