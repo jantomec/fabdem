@@ -1,0 +1,13 @@
+name: fabdem
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - flit=3.9.0=py312haa95532_1
+  - geopandas=0.14.2=py312haa95532_0
+  - grayskull=2.5.3=pyhd8ed1ab_0
+  - jupyter=1.0.0=py312haa95532_9
+  - pip=24.0=py312haa95532_0
+  - rasterio=1.3.10=py312h7f7071e_0
+  - requests=2.31.0=py312haa95532_1
+  - tqdm=4.66.2=py312hfc267ef_0
