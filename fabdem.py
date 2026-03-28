@@ -140,6 +140,11 @@ def download(bounds, output_path, show_progress=True, cache=None):
             download_folder = tmp
         
         for zipfile_name in set(intersecting_tiles.zipfile_name):
+            # Fix upstream GeoJSON bug: some southern-hemisphere tile names contain a
+            # spurious minus sign after the hemisphere letter (e.g. 'S-10' instead of
+            # 'S10'), which causes a 404 when used in the download URL.
+            zipfile_name = zipfile_name.replace("S-", "S").replace("N-", "N")
+
             # Fetch a tile
             tile_url = f"{base_url}/{zipfile_name}"
             zip_path = Path(download_folder) / zipfile_name
