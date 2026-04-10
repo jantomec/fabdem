@@ -1,6 +1,6 @@
 """Download FABDEM data: a DEM with forests and buildings removed using ML."""
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __author__ = "Jan Tomec"
 
 
@@ -18,13 +18,13 @@ from pyproj import CRS
 
 def __merge_rasters(output_path, tiles, bounds=None, crs=None):
     """Merge tiles.
-    
+
     Parameters:
     - tiles (list): A list of pathlib.Path instances.
     - output_path (pathlib.Path): The path of the merged raster.
-    - bounds (iterable or None): If not None, bounds must include 4 values which 
+    - bounds (iterable or None): If not None, bounds must include 4 values which
     are used to crop the merged raster. The order is (west, south, east, north).
-    - crs (int, pyproj.CRS or None): Specify the input coordinate system or use 
+    - crs (int, pyproj.CRS or None): Specify the input coordinate system or use
     None to try and set it automatically based on the metadata of the tiles.
     """
     rasters = [rasterio.open(raster) for raster in tiles]
@@ -32,7 +32,7 @@ def __merge_rasters(output_path, tiles, bounds=None, crs=None):
         datasets=rasters,
         bounds=bounds
     )
-    
+
     for raster in rasters:
         raster.close()
 
@@ -50,8 +50,8 @@ def __merge_rasters(output_path, tiles, bounds=None, crs=None):
             crs = source_crs
         else:
             raise ValueError("No CRS is present in the rasters metadata. Specify one using crs parameter.")
-        
-    
+
+
     metadata = {
         'count': merged_raster.shape[0],
         'height': merged_raster.shape[1],
@@ -60,7 +60,7 @@ def __merge_rasters(output_path, tiles, bounds=None, crs=None):
         'crs': crs,
         'transform': merged_transform
     }
-    
+
     with rasterio.open(output_path, mode='w', **metadata) as dest:
         dest.write(merged_raster)
 
@@ -120,7 +120,7 @@ def download(bounds, output_path, show_progress=True, cache=None):
     tiles_info_url = f"{base_url}/FABDEM_v1-2_tiles.geojson"
     response = requests.get(tiles_info_url)
     response.raise_for_status()
-    
+
     tiles_gdf = GeoDataFrame.from_features(
         response.json()["features"],
         crs=4326
@@ -128,7 +128,7 @@ def download(bounds, output_path, show_progress=True, cache=None):
 
     # Find tiles that intersect with the rect
     tiles_gdf["intersects"] = tiles_gdf.geometry.intersects(rect)
-    
+
     # Filter to get only the tiles that intersect
     intersecting_tiles = tiles_gdf[tiles_gdf["intersects"]]
 
@@ -138,7 +138,7 @@ def download(bounds, output_path, show_progress=True, cache=None):
             download_folder = cache
         else:
             download_folder = tmp
-        
+
         for zipfile_name in set(intersecting_tiles.zipfile_name):
             # Fix upstream GeoJSON bug: some southern-hemisphere tile names contain a
             # spurious minus sign after the hemisphere letter (e.g. 'S-10' instead of
@@ -156,16 +156,16 @@ def download(bounds, output_path, show_progress=True, cache=None):
             # Unzip its contents
             with ZipFile(zip_path, 'r') as zip_archive:
                 zip_archive.extractall(download_folder)
-        
+
         # File names in the FABDEM_v1-2_tiles.geojson do not match the actual
         # file names in the zip archive. North-south label has an extra zero.
         # If in the future this bug is corrected, simply remove this function.
         def correct_name(json_name):
             return json_name[0] + json_name[2:]
-        
+
         tile_paths = [
-            Path(download_folder) / correct_name(f) 
+            Path(download_folder) / correct_name(f)
             for f in intersecting_tiles.file_name
         ]
-        
+
         __merge_rasters(output_path, tile_paths, bounds)
