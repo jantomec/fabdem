@@ -4,3 +4,4 @@ dist
 examples/*.tif
 *.tif
 fabdem/meta.yaml
+.DS_Store
