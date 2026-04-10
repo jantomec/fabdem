@@ -26,34 +26,49 @@ Supports any raster format supported by GDAL.
 
 ## Development
 
-1. Clone this repository
+### 1. Clone the repository
 ```shell
 git clone https://github.com/jantomec/fabdem.git
+cd fabdem
 ```
 
-2. Create a new conda environment
-```shell
-conda create --file fabdem.yml
-```
-or alternatively update the existing one
-```shell
-conda env update --file fabdem.yml [--prune]
-```
-> **_NOTE:_** The `--prune` option causes conda to remove any dependencies that are no longer required from the environment.
+### 2. Create and activate an environment
 
-3. To install the package locally for development, run:
+#### 2.1 Using conda
+```shell
+conda env create -f fabdem.yml
+conda activate fabdem
+```
+If the environment already exists, update it instead:
+```shell
+conda env update -f fabdem.yml --prune
+conda activate fabdem
+```
+
+#### 2.2 Using venv on macOS or Linux
+```shell
+python -m venv .venv
+source .venv/bin/activate
+```
+#### 2.3 Using venv on Windows
+```shell
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+### 3. Install the package in editable mode
+With flit:
 ```shell
 flit install --symlink
 ```
-The `--symlink` option tells flit to create a symbolic link to your package directory inside the site-packages directory of your environment instead of copying files. This is useful for development, as changes in your package directory immediately affect the installed package without needing reinstallation.
 
-4. Run this command to upload the code to PyPI:
+### 4. Publish to PyPI:
 ```shell
 flit publish
 ```
 
 ### TODO:
-- [ ] Create a conda package.
+- [ ] Create a conda-forge package.
 - [ ] Download only part of a zip.
 
 ### Resources:
