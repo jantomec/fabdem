@@ -13,16 +13,107 @@ pip install fabdem
 
 ## Usage
 
-Define coordinates bounding the area of interest:
-```python
-bounds = (1, 30, 5, 35)
-```
-Call the download function to create a raster:
+FABDEM can be used either as a Python library or from the command line.
+
+### Python library
+
+Import the package and call `download()` with geographic bounds in EPSG:4326:
+
 ```python
 import fabdem
+
+bounds = (1, 30, 5, 35)
 fabdem.download(bounds, output_path="dem.tif")
 ```
-Supports any raster format supported by GDAL.
+
+The bounds tuple is:
+
+```python
+(west, south, east, north)
+```
+
+Example:
+
+```python
+import fabdem
+
+bounds = (35.35, -1.49, 36.48, -0.23)
+fabdem.download(bounds, output_path="narok_dem.tif")
+```
+
+`output_path` may point to any raster format supported by GDAL, such as `.tif`.
+
+#### Optional arguments
+
+You can also control caching and progress display:
+
+```python
+import fabdem
+from pathlib import Path
+
+bounds = (35.35, -1.49, 36.48, -0.23)
+fabdem.download(
+    bounds,
+    output_path="narok_dem.tif",
+    cache=Path("./fabdem-cache"),
+    show_progress=True,
+)
+```
+
+Common keyword arguments:
+
+- `bounds`: `(west, south, east, north)` in longitude/latitude.
+- `output_path`: output raster path.
+- `cache`: optional directory used to store downloaded ZIP archives and extracted tiles.
+- `show_progress`: show progress output in terminal or notebook.
+
+#### In notebooks
+
+In Jupyter notebooks, progress output uses an `ipywidgets` widget to avoid flickering from repeated cell output refreshes. If `ipywidgets` is not available, the code falls back to plain text output and logs a warning.
+
+### Command-line interface
+
+The module can also be run directly from the command line.
+
+Basic usage:
+
+```shell
+python fabdem.py WEST SOUTH EAST NORTH OUTPUT_PATH
+```
+
+Example:
+
+```shell
+python fabdem.py 35.35 -1.49 36.48 -0.23 narok_dem.tif
+```
+
+With optional arguments:
+
+```shell
+python fabdem.py 35.35 -1.49 36.48 -0.23 narok_dem.tif \
+    --cache ./fabdem-cache \
+    --log-level INFO
+```
+
+Available CLI options:
+
+- `--cache PATH`: use a custom cache directory.
+- `--hide-progress`: disable progress output.
+- `--clear-cache`: clear the selected cache before downloading.
+- `--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}`: configure logging verbosity.
+
+You can also inspect the built-in help:
+
+```shell
+python fabdem.py --help
+```
+
+### Notes
+
+- Coordinates must be given in EPSG:4326 longitude/latitude.
+- The package automatically determines which FABDEM tiles intersect the requested bounds.
+- Downloaded data may be reused from cache when available.
+- The output raster is created by merging all intersecting tiles for the requested area.
 
 ## Development
 
@@ -69,7 +160,8 @@ flit publish
 
 ### TODO:
 - [ ] Create a conda-forge package.
-- [ ] Download only part of a zip.
+- [x] Download only part of a zip.
+- [x] Add a CLI tool
 
 ### Resources:
 - [Python Packaging](https://packaging.python.org/en/latest/overview/)
