@@ -11,6 +11,11 @@ To install the package using *pip*
 pip install fabdem
 ```
 
+or using *conda* (from the conda-forge channel)
+```shell
+conda install -c conda-forge fabdem
+```
+
 ## Usage
 
 FABDEM can be used either as a Python library or from the command line.
@@ -157,6 +162,10 @@ flit install --symlink
 ```shell
 flit publish
 ```
+
+### 5. Update the conda-forge package
+
+After a new release is published to PyPI, the conda-forge bot automatically opens a pull request on the [fabdem-feedstock](https://github.com/conda-forge/fabdem-feedstock) to bump the version. Review and merge it to update the conda-forge package. If the dependencies changed, update them manually in `recipe/meta.yaml` as part of that pull request.
 
 ### TODO:
 - [x] Create a conda-forge package.
