@@ -201,7 +201,7 @@ def __merge_rasters(output_path, tiles, bounds=None, crs=None):
     )
     rasters = [rasterio.open(raster) for raster in tiles]
     merged_raster, merged_transform = rasterio.merge.merge(
-        datasets=rasters,
+        rasters,
         bounds=bounds
     )
 
