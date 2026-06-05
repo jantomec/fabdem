@@ -1,6 +1,6 @@
 """Download FABDEM data: a DEM with forests and buildings removed using ML."""
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __author__ = "Jan Tomec"
 
 
@@ -593,7 +593,7 @@ def download(bounds, output_path, show_progress=True, cache=None):
     Parameters:
     - bounds (tuple): coordinates (west, south, east, north) in EPSG:4326
     - output_path (str or pathlib.Path): output file
-    - show_progress (bool): if True, then tqdm progress indicator is displayed
+    - show_progress (bool): if True, a progress indicator is displayed
     - cache (str, pathlib.Path or None): Folder used to cache downloaded tile
     files between calls. When provided, extracted TIFF tiles and any fallback
     ZIP downloads are stored there and reused on subsequent calls. By default,

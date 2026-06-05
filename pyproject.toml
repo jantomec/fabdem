@@ -10,8 +10,9 @@ dynamic = ["version", "description"]
 dependencies = [
     "requests >= 2.25",
     "geopandas >= 0.14",
-    "tqdm >= 4.66",
+    "shapely >= 2.0",
     "rasterio >= 1.3",
+    "pyproj >= 3.0",
 ]
 
 [project.urls]
