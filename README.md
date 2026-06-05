@@ -159,7 +159,7 @@ flit publish
 ```
 
 ### TODO:
-- [ ] Create a conda-forge package.
+- [x] Create a conda-forge package.
 - [x] Download only part of a zip.
 - [x] Add a CLI tool
 
