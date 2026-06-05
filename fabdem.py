@@ -1,6 +1,6 @@
 """Download FABDEM data: a DEM with forests and buildings removed using ML."""
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 __author__ = "Jan Tomec"
 
 

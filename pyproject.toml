@@ -6,6 +6,10 @@ build-backend = "flit_core.buildapi"
 name = "fabdem"
 authors = [{name = "Jan Tomec", email = "jan.tomec@c3m.si"}]
 readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+]
 dynamic = ["version", "description"]
 dependencies = [
     "requests >= 2.25",
